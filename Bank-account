@@ -1,0 +1,32 @@
+from Account import Account
+
+class Savings(Account):
+    def __init__(self, owner, balance=0):
+        # Initializes the parent Account class
+        super().__init__(owner, balance)
+        self.interest_rate = 0.02
+        
+        # 1) Add an attribute called withdraw limit of $100
+        self.withdraw_limit = 100 
+
+    def apply_interest(self):
+        interest = self.get_balance() * self.interest_rate
+        self.deposit(interest)
+        print(f"Interest of {interest} applied. New balance: {self.get_balance()}")
+
+    # 2) Override the withdrawal behavior
+    def withdraw(self, amount):
+        # Check if the withdrawal amount is more than the limit
+        if amount > self.withdraw_limit:
+            print(f"Transaction Denied: ${amount} exceeds your withdrawal limit of ${self.withdraw_limit}.")
+        else:
+            # If within limit, use the original withdrawal logic from the Account class
+            super().withdraw(amount)
+
+# --- Test the Savings account logic ---
+if __name__ == "__main__":
+    print("--- CSC102 Savings Account Test ---")
+    my_savings = Savings("Joe", 1000)
+    print(f"Initial Balance: ${my_savings.get_balance()}")
+
+    
